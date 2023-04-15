@@ -76,18 +76,9 @@ def test_drs_object_aliases(drs_object_id, expected_values, test_name):
         result["message"] = "{}".format(response_json['msg'])
     elif response.status_code == 200 and False == result["pass"]:
         result["message"] = "Test failed as value of  alias is:{} while expected value is:{}".format(
-                                                                                                 actual_value[0],
-                                                                                                 expected_values)
+            actual_value[0],
+            expected_values)
     print(result)
-
-
-def test_drs_object_checksum(drs_object_id, expected_values, test_name):
-    response = requests.get(DRS_URL + "objects/" + drs_object_id)
-    response_json = response.json()
-    actual_value = response_json["checksums"]
-    if len(response_json["checksums"]) == len(expected_values):
-
-
 
 
 # call below in some method and pass objects in loop
@@ -99,4 +90,5 @@ test_drs_object_header("8e18bfb64168994489bc9e7fda0acd4f", "Content-Type",
                        "application/json",
                        "test__header_content_type_for_object_8e18bfb64168994489bc9e7fda0acd4f")
 
-test_drs_object_aliases("8e18bfb64168994489bc9e7fda0acd4f", "HG00449 high coverage downsampled CRAM", "alias_test_for_8e18bfb64168994489bc9e7fda0acd4f")
+test_drs_object_aliases("8e18bfb64168994489bc9e7fda0acd4f", "HG00449 high coverage downsampled CRAM",
+                        "alias_test_for_8e18bfb64168994489bc9e7fda0acd4f")
