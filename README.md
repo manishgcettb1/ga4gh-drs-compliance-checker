@@ -1,6 +1,11 @@
 # ga4gh-drs-compliance-checker
 Python project to verify the compliance of the GA4GH DRS Starter Kit's *GET /objects/{object_id}* endpoint to the DRS v1.2.0 specification.
-
+ ## About repository
+ - conf.ini -> Configuration file to configure the DRS URL(update this url if DRS API is not running on http://localhost:5000/ga4gh/drs/v1/ )
+ - drs_compliance_runner.py -> Contains main method. Execute all methods that validates the DRS API specification. It call methods from drs_specification.py and drs_object_ep_value_specification.py
+ - /drs_compliance/api/drs_specification.py -> It  make http call to DRS and verify the specification. E.g- Verify all mandatory fields to be available in response, Id, check checksums response in correct format or not..etc
+ - /drs_compliance/api/drs_object_ep_value_specification.py -> It make http calls and verify the value for some drs_object(it may fail if DRS objects are different from given in this assignment)
+ - /drs_compliance/api/utl.py - Have util methods
 ## About GA4GH-Data Repository Service (DRS) v1.2.0
 - **Data Repository Service (DRS) v1.2.0**: https://ga4gh.github.io/data-repository-service-schemas/preview/release/drs-1.2.0/docs/
 - **GA4GH Starter Kit DRS website:** https://starterkit.ga4gh.org/docs/starter-kit-apis/drs/drs_overview
@@ -38,5 +43,7 @@ Follow steps at https://github.com/ga4gh/ga4gh-starter-kit-drs
 4. Create a Kubernetes deployment for the ga4gh-drs-compliance-checker application using the k8s.yml file. Run the following command in the directory containing the k8s.yml file:kubectl apply -f k8s.yml
 5. Verify that the deployment was successful by checking the status of the deployment:kubectl get deployments
 
-# Suggestion(Possible enhancement) to this application
-1. Can be used pytest test suite to execute the all specifications methods
+# Next step
+1. Use of pytest test suite to execute the all specifications methods
+2. Extend to deployment on cloud
+3. Can be added to CI/CD pipeline (To add .gitlab.yml)
