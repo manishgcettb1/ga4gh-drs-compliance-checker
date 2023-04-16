@@ -4,7 +4,7 @@ Python project to check compliance for ga4gh drs kit.
 # About me(author)
 
 
-# Deploy using docker (AWS, Microsoft Azure, or Google Cloud Platform (GCP), or deploying them on Docker clusters such as Kubernetes or Docker Swarm clusters)
+# Deploy using docker 
 1. Build a Docker image for your Python application using the  command: docker build -t myrepo/ga4gh-drs-compliance-checker:latest. (Replace the 'myrepo' as required)
 2. Push the Docker image to your Docker registry using the following command: docker push myrepo/ga4gh-drs-compliance-checker:latest
 3. Run the docker image docker run myrepo/ga4gh-drs-compliance-checker:latest python3 
