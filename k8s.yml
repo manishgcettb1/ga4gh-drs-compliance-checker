@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ga4gh-drs-compliance-checker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ga4gh-drs-compliance-checker
+  template:
+    metadata:
+      labels:
+        app: ga4gh-drs-compliance-checker
+    spec:
+      containers:
+      - name: ga4gh-drs-compliance-checker
+        image: <your-docker-image-name>
+        imagePullPolicy: Always
+        command: ["python", "drs_compliance_runner.py"]
+        workingDir: /app
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: data
+        emptyDir: {}

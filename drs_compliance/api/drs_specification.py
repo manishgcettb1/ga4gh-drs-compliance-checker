@@ -18,14 +18,21 @@ from drs_compliance.config_reader import get_drs_url
 DRS_URL = get_drs_url()
 
 
-def verify_drs_object_res_status_code(drs_object_id, expected_status, test_name):
-    response = requests.get(DRS_URL + "objects/" + drs_object_id)
+def verify_drs_object_res_status_code(object_id, expected_status, test_name):
+    """
+    Verify the status of object api response.
+    :param object_id: Object_id
+    :param expected_status: status_code for given api response
+    :param test_name: Name of test
+    :return:  print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
+    """
+    response = requests.get(DRS_URL + "objects/" + object_id)
     status_code = response.status_code
     response_json = response.json()
-    result = {"object_id": drs_object_id, "test_name": test_name}
+    result = {"object_id": object_id, "test_name": test_name}
     if expected_status == status_code:
         result["pass"] = True
-        result["message"] = "status of object_id {} returned {} ".format(drs_object_id, status_code)
+        result["message"] = "status of object_id {} returned {} ".format(object_id, status_code)
     else:
         result["pass"] = False
         # Log message from response
@@ -39,6 +46,14 @@ def verify_drs_object_res_status_code(drs_object_id, expected_status, test_name)
 
 
 def verify_drs_object_header(object_id, drs_header_field, expected_values, test_name):
+    """
+    verify DRS objects api endpoint header response as per specification
+    :param  object_id: Object_id
+    :param drs_header_field: Header field name( e.g - Content Type)
+    :param test_name: Name of test
+    :return: result json as result = {"object_id": drs_object_id, "test_name": test_name}
+    :return:  print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
+    """
     response = requests.get(DRS_URL + "objects/" + object_id)
     json_res = response.json()
     actual_value = response.headers[drs_header_field]
@@ -58,6 +73,13 @@ def verify_drs_object_header(object_id, drs_header_field, expected_values, test_
 
 
 def verify_drs_fields(object_id, required_fields, test_name):
+    """
+
+    :param object_id: Object_id
+    :param required_fields: Array of all mandatory fields that expected in response
+    :param test_name: Test name
+    :return:  print the result json E.g. result  = {"object_id": drs_object_id, "test_name": test_name}
+    """
     response = requests.get(DRS_URL + "objects/" + object_id)
     result = {"object_id": object_id, "test_name": test_name}
     if response.status_code == 200:
@@ -85,6 +107,12 @@ def verify_drs_fields(object_id, required_fields, test_name):
 
 
 def verify_drs_id(object_id, test_name):
+    """
+    Verify that drs_id is being returned from objects api response
+    :param object_id: input object id
+    :param test_name:  Test name
+    :return:  print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
+    """
     response = requests.get(DRS_URL + "objects/" + object_id)
     result = {"object_id": object_id, "test_name": test_name}
     if response.status_code == 200:
@@ -111,6 +139,12 @@ def verify_drs_id(object_id, test_name):
 
 
 def verify_drs_checksums(object_id, test_name):
+    """
+    Verify that checksums fields and its values are available in DRS objects api endpoint response
+    :param object_id: Object_id
+    :param test_name: Test name
+    :return:  print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
+    """
     response = requests.get(DRS_URL + "objects/" + object_id)
     result = {"object_id": object_id, "test_name": test_name}
     if response.status_code == 200:
@@ -141,6 +175,12 @@ def verify_drs_checksums(object_id, test_name):
 
 
 def verify_drs_access_methods(object_id, test_name):
+    """
+    Verify that access_methods are available in objects api response
+    :param object_id: Object_id
+    :param test_name: Test Name
+    :return:  print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
+    """
     response = requests.get(DRS_URL + "objects/" + object_id)
     result = {"object_id": object_id, "test_name": test_name}
     if response.status_code == 200:
@@ -197,6 +237,13 @@ import re
 
 
 def verify_drs_time_format(object_id, field_name, test_name):
+    """
+    Verify that fields containing time values are in ISO format. E.g. ISO 8601 format: YYYY-MM-DDTHH:MM:SS.mmmmmmZ
+    :param object_id: Object Id
+    :param field_name: Field name expecting time value
+    :param test_name: Test name
+    :return: print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
+    """
     response = requests.get(DRS_URL + "objects/" + object_id)
     result = {"object_id": object_id, "test_name": test_name}
 
@@ -226,12 +273,3 @@ def verify_drs_time_format(object_id, field_name, test_name):
     print(result)
 
 
-verify_drs_object_res_status_code('8e18bfb64168994489bc9e7fda0acd4f', 200, 'verify_status_code')
-verify_drs_object_res_status_code('8e18bfb64168994489bc9e7fda0acd4fdfadf', 404, 'verify_status_code')
-expected_fields = ['id', 'names', 'sizes', 'checksums', 'access_methods', 'created_time', 'updated_time', 'version']
-verify_drs_fields("8e18bfb64168994489bc9e7fda0acd4f", expected_fields, "verify_DRS_fields")
-verify_drs_id("8e18bfb64168994489bc9e7fda0acd4f", "verfiy_object_id")
-verify_drs_checksums("8e18bfb64168994489bc9e7fda0acd4f", "verify_checksums")
-verify_drs_access_methods("8e18bfb64168994489bc9e7fda0acd4f", "verify_access_methods")
-verify_drs_time_format("8e18bfb64168994489bc9e7fda0acd4f", "created_time", "verify_created_time")
-verify_drs_time_format("8e18bfb64168994489bc9e7fda0acd4f", "updated_time", "verify_created_time")

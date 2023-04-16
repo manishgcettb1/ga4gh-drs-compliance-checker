@@ -5,10 +5,8 @@ import configparser
 def get_drs_url():
     """
     Returns the value of the 'drs_url' property from the 'conf.ini' file.
-
     Returns:
         str: The DRS URL.
-
     """
     # Get the path to the 'conf.ini' file
     root_path = os.path.dirname(os.path.abspath(__file__))

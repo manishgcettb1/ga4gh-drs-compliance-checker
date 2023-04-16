@@ -1,7 +1,6 @@
 import os
 import sys
 import requests
-import json
 
 # Add the root directory of the project to the system path
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -24,7 +23,15 @@ EXPECTED_RESPONSES = [
 
 
 # test drs_response from body
-def test_drs_object(drs_object_id, drs_field, expected_values, test_name):
+def verify_drs_object(drs_object_id, drs_field, expected_values, test_name):
+    """
+    Verify that DRS objects API endpoint contain the expected value for given field
+    :param drs_object_id: Object id of DRS object
+    :param drs_field: Field name
+    :param expected_values: Expected value of given field name
+    :param test_name: Test Name
+    :return: print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
+    """
     response = requests.get(DRS_URL + "objects/" + drs_object_id)
     response_json = response.json()
     actual_value = response_json[drs_field]
@@ -43,26 +50,14 @@ def test_drs_object(drs_object_id, drs_field, expected_values, test_name):
     print(result)
 
 
-def test_drs_object_header(drs_object_id, drs_header_field, expected_values, test_name):
-    response = requests.get(DRS_URL + "objects/" + drs_object_id)
-    response_json = response.json()
-    actual_value = response.headers[drs_header_field]
-    result = {"object_id": drs_object_id, "test_name": test_name}
-    if expected_values == actual_value:
-        result["pass"] = True
-    else:
-        result["pass"] = False
-
-    if response.status_code != 200:
-        result["message"] = "{}".format(response_json['msg'])
-    elif response.status_code != 200 and False == result["pass"]:
-        result["message"] = "Test failed as value of {} is:{} while expected value is:{}".format(drs_header_field,
-                                                                                                 actual_value,
-                                                                                                 expected_values)
-    print(result)
-
-
 def test_drs_object_aliases(drs_object_id, expected_values, test_name):
+    """
+
+    :param drs_object_id: drs_object_id: Object id of DRS object
+    :param expected_values: expected value of alias in reponse
+    :param test_name: Test name
+    :return: print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
+    """
     response = requests.get(DRS_URL + "objects/" + drs_object_id)
     response_json = response.json()
     actual_value = response_json["aliases"]
@@ -80,15 +75,3 @@ def test_drs_object_aliases(drs_object_id, expected_values, test_name):
             expected_values)
     print(result)
 
-
-# call below in some method and pass objects in loop
-test_drs_object("8e18bfb64168994489bc9e7fda0acd4f", "description",
-                "High coverage, downsampled CRAM file for sample HG00449",
-                "test_description_for_object_8e18bfb64168994489bc9e7fda0acd4f")
-
-test_drs_object_header("8e18bfb64168994489bc9e7fda0acd4f", "Content-Type",
-                       "application/json",
-                       "test__header_content_type_for_object_8e18bfb64168994489bc9e7fda0acd4f")
-
-test_drs_object_aliases("8e18bfb64168994489bc9e7fda0acd4f", "HG00449 high coverage downsampled CRAM",
-                        "alias_test_for_8e18bfb64168994489bc9e7fda0acd4f")
