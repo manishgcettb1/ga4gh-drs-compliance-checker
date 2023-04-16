@@ -46,6 +46,7 @@ Follow steps at https://github.com/ga4gh/ga4gh-starter-kit-drs
 1. Use of pytest test suite to execute the all specifications methods
 2. Extend to deployment on cloud
 3. Can be added to CI/CD pipeline (To add .gitlab.yml)
+4. More tests can be added
 
 # Feedback
 If you have any feedback or need help on this application, please feel free to drop a mail to manishgcettb@gmail.com
