@@ -1,5 +1,5 @@
 # ga4gh-drs-compliance-checker
-Python project to verify the compliance of the GA4GH DRS Starter Kit's *GET /objects/{object_id}* endpoint to the DRS v1.2.0 specification.
+Python project to verify the compliance of the GA4GH DRS Starter Kit's *GET /objects/{object_id}* endpoint for DRS v1.2.0 API specification.
 
 ## About GA4GH-Data Repository Service (DRS) v1.2.0
 - **Data Repository Service (DRS) v1.2.0**: https://ga4gh.github.io/data-repository-service-schemas/preview/release/drs-1.2.0/docs/
