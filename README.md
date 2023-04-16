@@ -11,7 +11,7 @@ I am Manish, have 11 years of experience in Software development. I have been wo
 experience in Python(2 & 3). I gained python experience currently working on few python projects in my EMBL-EBI work.
 
 # Prerequisite
-This application make http call to DRS application deployed locally on URL: so . It is assumed that you have DRS API running on your machine.
+This application make http call to DRS application deployed locally on URL: http://localhost:5000/ga4gh/drs/v1. It is assumed that you have DRS API running on your machine(see below to install and run the DRS API service).
 If it's not running on your machine then need to change the URL drs_url = http://localhost:5000/ga4gh/drs/v1/ under conf.ini file.
 ## To install   (DRS) v1.2.0 
 Follow steps at https://github.com/ga4gh/ga4gh-starter-kit-drs
