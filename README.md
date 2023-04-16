@@ -2,7 +2,12 @@
 Python project to check compliance for ga4gh drs kit.
 
 # About me(author)
+I am Manish and have 11 years of experience in Software development. I have been working majorly in Java-SpringBoot based enterprise application but also acquired working 
+experience in Python(2 & 3). I gained python experience currently working on few python projects in my EMBL-EBI work.
 
+# Prerequisite
+This application make http call to DRS application deployed locally on URL: so . It is assumed that you have DRS API running on your machine.
+If it's not running on your machine then need to change the URL drs_url = http://localhost:5000/ga4gh/drs/v1/ under conf.ini file.
 
 # Deploy using docker 
 1. Build a Docker image for your Python application using the  command: docker build -t myrepo/ga4gh-drs-compliance-checker:latest. (Replace the 'myrepo' as required)
