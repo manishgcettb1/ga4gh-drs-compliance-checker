@@ -2,7 +2,7 @@
 Python project to verify the compliance of the GA4GH DRS Starter Kit's *GET /objects/{object_id}* endpoint to the DRS v1.2.0 specification.
  ## About repository
  - conf.ini -> Configuration file to configure the DRS URL(update this url if DRS API is not running on http://localhost:5000/ga4gh/drs/v1/ )
- - drs_compliance_runner.py -> Contains main method. Execute all methods that validates the DRS API specification. It call methods from drs_specification.py and drs_object_ep_value_specification.py
+ - main.py -> Contains main method. Execute all methods that validates the DRS API specification. It calls methods from drs_specification.py and drs_object_ep_value_specification.py
  - /drs_compliance/api/drs_specification.py -> It  make http call to DRS and verify the specification. E.g- Verify all mandatory fields to be available in response, Id, check checksums response in correct format or not..etc
  - /drs_compliance/api/drs_object_ep_value_specification.py -> It make http calls and verify the value for some drs_object(it may fail if DRS objects are different from given in this assignment)
  - /drs_compliance/api/utl.py - Have util methods
@@ -24,16 +24,15 @@ Follow steps at https://github.com/ga4gh/ga4gh-starter-kit-drs
 # Install and run on local machine
 1. checkout the code
 2. make sure you have python installed on your machine.
-3. Run the DRS api locally (see above ) or update the drs_url
-4. Install the requirement.txt by running pip install -r requirements.txt
-5. execute drs_compliance_runner.py
+3. Run the DRS api locally (see above ) or update the drs_url if different from http://localhost:5000/ga4gh/drs/v1
+4. Install the requirement.txt by running **pip install -r requirements.txt**
+5. execute python main.py
 
 # Deploy using docker 
-1. Build a Docker image for your Python application using the  command: docker build -t myrepo/ga4gh-drs-compliance-checker:latest. (Replace the 'myrepo' as required)
-2. Push the Docker image to your Docker registry using the following command: docker push myrepo/ga4gh-drs-compliance-checker:latest
-3. Run the docker image docker run myrepo/ga4gh-drs-compliance-checker:latest python3 
+1. Build a Docker image for your Python application using the  command: **docker build -t myrepo/ga4gh-drs-compliance-checker:latest .** (Replace the 'myrepo' as required)
+2. Push the Docker image to your Docker registry using the following command: **docker push myrepo/ga4gh-drs-compliance-checker:lates**t
+3. Run the docker image using command: **docker run myrepo/ga4gh-drs-compliance-checker:latest** 
 4. Above command will log the all specification test cases in terminal
-5. To run docker run myrepo/ga4gh-drs-compliance-checker:latest
 
 
 # Deploy to kubernetes cluster using k8s.yml

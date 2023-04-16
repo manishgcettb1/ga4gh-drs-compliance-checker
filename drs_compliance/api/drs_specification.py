@@ -26,10 +26,17 @@ def verify_drs_object_res_status_code(object_id, expected_status, test_name):
     :param test_name: Name of test
     :return:  print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
     """
-    response = requests.get(DRS_URL + "objects/" + object_id)
-    status_code = response.status_code
-    response_json = response.json()
+
     result = {"object_id": object_id, "test_name": test_name}
+    try:
+        response = requests.get(DRS_URL + "objects/" + object_id)
+        status_code = response.status_code
+        response_json = response.json()
+    except requests.exceptions.RequestException as e:
+        result["pass"] = False
+        result["message"] = f"Failed to connect to DRS server: {e}"
+        print(result)
+        return
     if expected_status == status_code:
         result["pass"] = True
         result["message"] = "status of object_id {} returned {} ".format(object_id, status_code)
@@ -54,10 +61,17 @@ def verify_drs_object_header(object_id, drs_header_field, expected_values, test_
     :return: result json as result = {"object_id": drs_object_id, "test_name": test_name}
     :return:  print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
     """
-    response = requests.get(DRS_URL + "objects/" + object_id)
-    json_res = response.json()
-    actual_value = response.headers[drs_header_field]
     result = {"object_id": object_id, "test_name": test_name}
+    try:
+        response = requests.get(DRS_URL + "objects/" + object_id)
+        json_res = response.json()
+        actual_value = response.headers[drs_header_field]
+    except requests.exceptions.RequestException as e:
+        result["pass"] = False
+        result["message"] = f"Failed to connect to DRS server: {e}"
+        print(result)
+        return
+
     if expected_values == actual_value:
         result["pass"] = True
     else:
@@ -113,8 +127,16 @@ def verify_drs_id(object_id, test_name):
     :param test_name:  Test name
     :return:  print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
     """
-    response = requests.get(DRS_URL + "objects/" + object_id)
+
     result = {"object_id": object_id, "test_name": test_name}
+    try:
+        response = requests.get(DRS_URL + "objects/" + object_id)
+    except requests.exceptions.RequestException as e:
+        result["pass"] = False
+        result["message"] = f"Failed to connect to DRS server: {e}"
+        print(result)
+        return
+
     if response.status_code == 200:
         if response.headers['content-type'] == "application/json":
             json_res = response.json()
@@ -145,8 +167,14 @@ def verify_drs_checksums(object_id, test_name):
     :param test_name: Test name
     :return:  print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
     """
-    response = requests.get(DRS_URL + "objects/" + object_id)
     result = {"object_id": object_id, "test_name": test_name}
+    try:
+        response = requests.get(DRS_URL + "objects/" + object_id)
+    except requests.exceptions.RequestException as e:
+        result["pass"] = False
+        result["message"] = f"Failed to connect to DRS server: {e}"
+        print(result)
+        return
     if response.status_code == 200:
         if response.headers['content-type'] == "application/json":
             json_res = response.json()
@@ -181,8 +209,15 @@ def verify_drs_access_methods(object_id, test_name):
     :param test_name: Test Name
     :return:  print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
     """
-    response = requests.get(DRS_URL + "objects/" + object_id)
     result = {"object_id": object_id, "test_name": test_name}
+    try:
+        response = requests.get(DRS_URL + "objects/" + object_id)
+    except requests.exceptions.RequestException as e:
+        result["pass"] = False
+        result["message"] = f"Failed to connect to DRS server: {e}"
+        print(result)
+        return
+
     if response.status_code == 200:
         if response.headers['content-type'] == "application/json":
             json_res = response.json()
@@ -233,9 +268,6 @@ def verify_drs_access_methods(object_id, test_name):
     print(result)
 
 
-import re
-
-
 def verify_drs_time_format(object_id, field_name, test_name):
     """
     Verify that fields containing time values are in ISO format. E.g. ISO 8601 format: YYYY-MM-DDTHH:MM:SS.mmmmmmZ
@@ -244,9 +276,16 @@ def verify_drs_time_format(object_id, field_name, test_name):
     :param test_name: Test name
     :return: print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
     """
-    response = requests.get(DRS_URL + "objects/" + object_id)
-    result = {"object_id": object_id, "test_name": test_name}
 
+    result = {"object_id": object_id, "test_name": test_name}
+    try:
+        response = requests.get(DRS_URL + "objects/" + object_id)
+    except requests.exceptions.RequestException as e:
+        result["pass"] = False
+        result["message"] = f"Failed to connect to DRS server: {e}"
+        print(result)
+
+        return
     if response.status_code == 200:
         if response.headers['content-type'] == "application/json":
             json_res = response.json()
@@ -271,5 +310,3 @@ def verify_drs_time_format(object_id, field_name, test_name):
         result["message"] = f"Verification failed. Request failed with status code {response.status_code}."
 
     print(result)
-
-

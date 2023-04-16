@@ -32,10 +32,17 @@ def verify_drs_object(drs_object_id, drs_field, expected_values, test_name):
     :param test_name: Test Name
     :return: print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
     """
-    response = requests.get(DRS_URL + "objects/" + drs_object_id)
-    response_json = response.json()
-    actual_value = response_json[drs_field]
+
     result = {"object_id": drs_object_id, "test_name": test_name}
+    try:
+        response = requests.get(DRS_URL + "objects/" + drs_object_id)
+        response_json = response.json()
+        actual_value = response_json[drs_field]
+    except requests.exceptions.RequestException as e:
+        result["pass"] = False
+        result["message"] = f"Failed to connect to DRS server: {e}"
+        print(result)
+        return
     if expected_values == actual_value:
         result["pass"] = True
     else:
@@ -58,10 +65,18 @@ def test_drs_object_aliases(drs_object_id, expected_values, test_name):
     :param test_name: Test name
     :return: print the result json as result = {"object_id": drs_object_id, "test_name": test_name}
     """
-    response = requests.get(DRS_URL + "objects/" + drs_object_id)
-    response_json = response.json()
-    actual_value = response_json["aliases"]
+
     result = {"object_id": drs_object_id, "test_name": test_name}
+    try:
+        response = requests.get(DRS_URL + "objects/" + drs_object_id)
+        response_json = response.json()
+        actual_value = response_json["aliases"]
+    except requests.exceptions.RequestException as e:
+        result["pass"] = False
+        result["message"] = f"Failed to connect to DRS server: {e}"
+        print(result)
+        return
+
     if expected_values == actual_value[0]:
         result["pass"] = True
     else:

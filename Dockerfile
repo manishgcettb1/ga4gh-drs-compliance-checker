@@ -13,4 +13,4 @@ ENV PYTHONPATH "${PYTHONPATH}:/app/"
 RUN pip install -r requirements.txt
 
 # Define the command to run your Python script using the main method as the entry point
-CMD [ "python", "drs_compliance/drs_compliance_runner.py" ]
+CMD [ "python", "main.py" ]
